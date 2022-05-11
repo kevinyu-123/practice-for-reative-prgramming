@@ -1,0 +1,8 @@
+rootProject.name = 'proj'
+include 'app:login'
+findProject(':app:login')?.name = 'login'
+include 'app:twit'
+findProject(':app:twit')?.name = 'twit'
+include 'app:twit'
+findProject(':app:twit')?.name = 'twit'
+
