@@ -1,6 +1,7 @@
 package com.travel.proj.controller;
 
 import com.travel.proj.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 
 @Controller
+@Slf4j
 public class UserController {
     private final UserService service;
 
@@ -42,6 +44,7 @@ public class UserController {
     }
     @GetMapping("/logout")
     public String logout(HttpSession session,@RequestParam String email){
+        log.info(email);
         service.logout(session,email);
         return "redirect:/main";
     }

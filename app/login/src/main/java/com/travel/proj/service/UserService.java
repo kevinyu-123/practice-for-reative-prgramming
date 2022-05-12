@@ -5,19 +5,24 @@ import com.travel.proj.model.User;
 import com.travel.proj.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.internet.MimeMessage;
+import javax.persistence.LockModeType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import static javax.persistence.LockModeType.PESSIMISTIC_WRITE;
 
 
 @Service
@@ -112,12 +117,12 @@ public class UserService {
     @Transactional(readOnly = true)
     public User login(User user) {
         return userRepository.findByEmailAndPassword(user.getEmail(),user.getPassword());
-
     }
 
     @Transactional
     public void logout(HttpSession session, String email) {
         session.invalidate();
+
         User user = userRepository.findByEmail(email).orElseThrow(()->{
             return new IllegalArgumentException("회원 없음");
         });

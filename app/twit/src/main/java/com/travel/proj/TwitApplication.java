@@ -75,16 +75,16 @@ public class TwitApplication {
 
                log.info("board : "+boardService.save(board,in));
 
-             //  Reply reply_result = boardService.saveReply(rand_board_no,reply,in);
+               Reply reply_result = boardService.saveReply(rand_board_no,reply,in);
 
-          //      log.info(String.valueOf(reply_result));
-
+                log.info(String.valueOf(reply_result));
                if(b != null){
                    ResponseDto logout_result = webClient
                            .get()
-                           .uri("/logout?email="+in.getEmail())
+                           .uri(uriBuilder -> uriBuilder.path("/logout").queryParam("email",in.getEmail()).build())
                            .retrieve()
                            .bodyToMono(ResponseDto.class).block();
+                   log.info(in.getEmail());
                    log.info("logout: "+logout_result);
                }
             }
