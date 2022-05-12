@@ -22,19 +22,18 @@ public class BoardService {
         this.replyRepository = replyRepository;
     }
     @Transactional
-    public void save(Board board, User user) {
+    public Board save(Board board, User user) {
 
-        int num = (int) (Math.random()*20);
+        int num = (int) (Math.random()*20)+1;
 
         board.setTitle(randWord(num));
         board.setContent(randWord(num));
         board.setUser(user);
-
-        boardRepository.save(board);
+        return boardRepository.save(board);
     }
 
     @Transactional
-    public void saveReply(int boardId, Reply reply, User user) {
+    public Reply saveReply(int boardId, Reply reply, User user) {
         Board board = boardRepository.findById(boardId).orElseThrow(()->{
             return new IllegalArgumentException("해당 게시글이 없습니다.");
         });
@@ -43,7 +42,7 @@ public class BoardService {
         reply.setBoard(board);
         reply.setUser(user);
 
-        replyRepository.save(reply);
+      return replyRepository.save(reply);
     }
 
     private String randWord(int rand) {

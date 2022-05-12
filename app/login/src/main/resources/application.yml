@@ -10,9 +10,6 @@ server:
 #    key-store-password: tntor123
 #    enabled: true
 
-
-
-
 spring:
   mvc:
     view:

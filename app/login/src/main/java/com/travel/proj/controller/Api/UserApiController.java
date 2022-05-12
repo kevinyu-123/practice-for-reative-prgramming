@@ -26,6 +26,7 @@ public class UserApiController {
     public UserApiController(UserService service,UserRepository userRepository){
         this.service = service;
         this.userRepository = userRepository;
+
     }
 
     @PostMapping("")
@@ -49,7 +50,7 @@ public class UserApiController {
 
     @Transactional
     @PostMapping("/login")
-    public ResponseDto<Integer> login(@RequestBody User user,HttpServletRequest request){
+    public ResponseDto<User> login(@RequestBody User user,HttpServletRequest request){
        User info =  service.login(user);
 
        if(info != null){
@@ -67,9 +68,9 @@ public class UserApiController {
            info.setLoginTime(timestamp);
            userRepository.save(info);
 
-           return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+           return new ResponseDto<User>(HttpStatus.OK.value(), info);
        }else {
-           return new ResponseDto<Integer>(HttpStatus.INTERNAL_SERVER_ERROR.value(), 0);
+           return new ResponseDto<User>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
        }
     }
 
